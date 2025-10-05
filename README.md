@@ -29,7 +29,7 @@ Here's an overview of the parameters you can configure:
 
 ### 2. **Datasets**
 
-The experiments use datasets from DBPedia and YAGO. The datasets are expected to be in the `datasets/` directory. Based on the file names, it seems you are using `.pkl` and `.npy` files.
+The experiments use datasets from DBPedia and YAGO2. The datasets are expected to be in the `datasets/` directory. Based on the file names, it seems you are using `.pkl` and `.npy` files.
 
 Make sure the dataset files are correctly named and placed in the `datasets/` directory so the `dataset_store.py` script can load them.
 
