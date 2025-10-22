@@ -1,4 +1,4 @@
-# Spatial Diversified Proportionality and Spatial Fairness Experiments
+# Top-𝑘 Representative Spatial Objects using Spatial Diversified Proportionality
 
 This repository contains the code to reproduce the experiments for the paper **"Spatial Diversified proportionality (Spatial Fairness)"**.
 
@@ -31,9 +31,13 @@ Here's an overview of the key parameters, explained using the terminology from t
 
 ### 2. **Datasets**
 
-The experiments use datasets derived from **DBpedia** and **YAGO2**, as described in the paper. The pre-processed datasets are expected to be in the `datasets/` directory.
+The experiments use queries derived from the datasets **DBpedia** and **YAGO2**, as described in the paper. The pre-processed queries are expected to be in the `datasets/` directory.
 
 Please ensure the `.pkl` and `.npy` dataset files are correctly named and placed in the `datasets/` directory so the `dataset_store.py` script can load them properly.
+
+**DBpedia** : https://www.dbpedia.org
+
+**YAGO2**   : https://yago-knowledge.org/downloads/yago-2
 
 ---
 
