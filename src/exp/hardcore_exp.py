@@ -10,12 +10,11 @@ from models import Place
 from config import COMBO, NUM_CELLS, GAMMAS, DATASET_NAMES
 from baseline_iadu import iadu, load_dataset
 from hybrid_sampling import hybrid, hybrid_on_grid
-from grid_iadu import base_iadu_on_grid, grid_iadu
+from grid_iadu import grid_iadu
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_pdf import PdfPages
 from openpyxl import load_workbook
 from openpyxl.styles import PatternFill, Font, Alignment, Border, Side
-from openpyxl.utils import get_column_letter
 
 EXPERIMENT_NAME = "hardcore"
 SHAPES = DATASET_NAMES

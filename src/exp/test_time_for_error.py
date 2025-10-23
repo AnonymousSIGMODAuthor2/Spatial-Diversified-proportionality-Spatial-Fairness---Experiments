@@ -7,13 +7,13 @@ from collections import defaultdict
 from typing import List, Dict, Tuple
 import pandas as pd
 from models import Place
-from config import COMBO, NUM_CELLS, GAMMAS, DBPEDIA_DATASET_NAMES
+from config import COMBO, NUM_CELLS, GAMMAS, DATASET_NAMES
 from baseline_iadu import load_dataset, iadu, load_db_dataset
 from hybrid_sampling import hybrid, hybrid_on_grid
 from grid_iadu import base_iadu_on_grid, grid_iadu
 
 EXPERIMENT_NAME = "times"
-SHAPES = DBPEDIA_DATASET_NAMES
+SHAPES = DATASET_NAMES
 
 
 def run_experiment():

@@ -10,7 +10,7 @@ from models import Place, SquareGrid
 from config import COMBO, NUM_CELLS, GAMMAS, DATASET_NAMES
 from baseline_iadu import base_precompute, iadu, load_dataset
 from hybrid_sampling import hybrid, hybrid_on_grid
-from grid_iadu import base_iadu_on_grid, grid_iadu, grid_precompute
+from grid_iadu import base_iadu_on_grid, grid_iadu, virtual_grid_based_algorithm
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_pdf import PdfPages
 from openpyxl import load_workbook
@@ -44,7 +44,7 @@ def run_experiment():
                     
                     grid = SquareGrid(S, G)
                     CL = grid.get_full_cells()
-                    psS, sS , prep_time = grid_precompute(CL,S)
+                    psS, sS , prep_time = virtual_grid_based_algorithm(CL,S)
                     grid_pss_sum = sum(psS[p.id] for p in S)
                     
                     approx_error = sum(

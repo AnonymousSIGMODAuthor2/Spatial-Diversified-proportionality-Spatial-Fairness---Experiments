@@ -6,14 +6,13 @@ from collections import defaultdict
 from typing import List, Dict
 import pandas as pd
 from models import Place, SquareGrid
-from config import COMBO, NUM_CELLS
-from baseline_iadu import load_dataset, preparation, baseline_iadu_algorithm, HPFR
-from grid_iadu import grid_precompute, grid_iadu_algorithm, HPFR as grid_HPFR, map_place_to_cell, baseline_iadu_algorithm as baseline_iadu_for_grid
+from config import COMBO, NUM_CELLS, SIMULATED_DATASETS
+from baseline_iadu import load_dataset, base_precompute, baseline_iadu_algorithm, HPFR
+from grid_iadu import virtual_grid_based_algorithm, grid_based_iadu_algorithm, HPFR as grid_HPFR, map_place_to_cell, baseline_iadu_algorithm as baseline_iadu_for_grid
 
 # ==== EXPERIMENT CONFIG ====
 EXPERIMENT_NAME = "grid_pss_grid_iadu_VS_baseline_pss_baseline_iadu"
-SHAPES = ["flower", "bubble", "s_curve", "figure_eight"]
-
+SHAPES = SIMULATED_DATASETS # or DATASETS_NAMES for real datasets
 
 def run_experiment():
     log = defaultdict(list)
@@ -32,7 +31,7 @@ def run_experiment():
                     continue
 
                 # --- Baseline Preparation + IAdU ---
-                psS_base, sS_base, t_base_prep = preparation(S)
+                psS_base, sS_base, t_base_prep = base_precompute(S)
                 R_base, t_base_select = baseline_iadu_algorithm(S, k, W, psS_base, sS_base)
                 
                 sum_psS_base = sum(psS_base[p.id] for p in R_base)
@@ -40,13 +39,13 @@ def run_experiment():
 
                 grid = SquareGrid(S, G)
                 CL = list(grid.get_grid().values())
-                sS_grid, pr_grid, t_grid_prep = grid_precompute(CL, S)
+                sS_grid, pr_grid, t_grid_prep = virtual_grid_based_algorithm(CL, S)
 
                 place_to_cell = map_place_to_cell(CL)
                 for p in S:
                     p.score = pr_grid[place_to_cell[p.id]]
 
-                R_grid, t_grid_select, heap_time = grid_iadu_algorithm(S, CL, W, sS_grid, k)
+                R_grid, t_grid_select, heap_time = grid_based_iadu_algorithm(S, CL, W, sS_grid, k)
                 R_grid_base, t_grid_base_iadu = baseline_iadu_for_grid(S, CL,  k, W, sS_grid)
                 
                 sum_psS_grid = sum(p.score for p in R_grid)

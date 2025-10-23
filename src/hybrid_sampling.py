@@ -1,7 +1,7 @@
 from typing import Dict, Tuple
 from baseline_iadu import base_precompute, baseline_iadu_algorithm
 from biased_sampling import select_random
-from grid_iadu import grid_iadu_algorithm, grid_precompute
+from grid_iadu import grid_based_iadu_algorithm, virtual_grid_based_algorithm
 from models import List, Place, SquareGrid
 from HPF_eq import HPFR, HPFR_div
 
@@ -43,11 +43,11 @@ def hybrid_on_grid(S: List[Place], k: int, G, K_sample, W):
     # Preparation for hybrid
     grid = SquareGrid(biased_sampled_S, G)
     CL = grid.get_full_cells()
-    bs_psS, bs_sS, prep_time = grid_precompute(CL, biased_sampled_S)
+    bs_psS, bs_sS, prep_time = virtual_grid_based_algorithm(CL, biased_sampled_S)
     exact_psS, exact_sS, exact_prep_time = base_precompute(S)
         
     # Run grid IAdU algorithm
-    R_hybrid, selection_time = grid_iadu_algorithm(biased_sampled_S, CL, W_hybrid, bs_psS,  bs_sS, k)
+    R_hybrid, selection_time = grid_based_iadu_algorithm(biased_sampled_S, CL, W_hybrid, bs_psS,  bs_sS, k)
     
     # Compute final scores
     score, sum_psS, sum_psR = HPFR(R_hybrid, exact_psS, exact_sS, W, K)
@@ -90,11 +90,11 @@ def hybrid_on_grid_div(S: List[Place], k: int, G, K_sample, W):
     # Preparation for hybrid
     grid = SquareGrid(biased_sampled_S, G)
     CL = grid.get_full_cells()
-    bs_psS, bs_sS, prep_time = grid_precompute(CL, biased_sampled_S)
+    bs_psS, bs_sS, prep_time = virtual_grid_based_algorithm(CL, biased_sampled_S)
     exact_psS, exact_sS, exact_prep_time = base_precompute(S)
         
     # Run grid IAdU algorithm
-    R_hybrid, selection_time = grid_iadu_algorithm(biased_sampled_S, CL, W_hybrid, bs_psS,  bs_sS, k)
+    R_hybrid, selection_time = grid_based_iadu_algorithm(biased_sampled_S, CL, W_hybrid, bs_psS,  bs_sS, k)
     
     # Compute final scores
     score_rf, score_ps, sum_psS, sum_psR = HPFR_div(R_hybrid, exact_psS, exact_sS, W, K)

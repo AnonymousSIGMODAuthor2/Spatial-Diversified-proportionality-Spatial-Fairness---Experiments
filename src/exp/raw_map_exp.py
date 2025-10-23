@@ -5,7 +5,7 @@ sys.path.append(os.path.abspath(os.path.dirname(__file__)))
 
 from typing import List, Dict
 from models import Place
-from config import COMBO, NUM_CELLS, DBPEDIA_DATASET_NAMES
+from config import COMBO, NUM_CELLS, DATASET_NAMES
 from baseline_iadu import load_db_dataset
 from hardcore_exp import plot_folium_map
 
@@ -35,7 +35,7 @@ def move_map(shape: str, K: int, k_used: int, G_used: int):
 
 def run_experiment():
     print(f"[{EXPERIMENT_NAME}] G={G_FIXED}; ignoring k; iterating Ks={ALL_KS}")
-    for shape in DBPEDIA_DATASET_NAMES:
+    for shape in DATASET_NAMES:
         for K in ALL_KS:
             try:
                 S: List[Place] = load_db_dataset(shape, K)

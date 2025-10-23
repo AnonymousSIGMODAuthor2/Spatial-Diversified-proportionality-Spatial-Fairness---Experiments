@@ -6,12 +6,12 @@ from collections import defaultdict
 from typing import List, Dict
 import pandas as pd
 from models import Place
-from config import COMBO, NUM_CELLS
+from config import COMBO, NUM_CELLS, SIMULATED_DATASETS
 from baseline_iadu import load_dataset, iadu
 from hybrid_sampling import hybrid
 
 EXPERIMENT_NAME = "hybrid_VS_base_psS_base_iadu"
-SHAPES = ["flower","bubble", "s_curve", "figure_eight"]
+SHAPES = SIMULATED_DATASETS  # or DATASET_NAMES for real datasets
 
 
 def run_experiment():

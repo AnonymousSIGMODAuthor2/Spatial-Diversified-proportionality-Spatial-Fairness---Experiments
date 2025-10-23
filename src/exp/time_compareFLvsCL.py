@@ -10,7 +10,7 @@ from config import COMBO, NUM_CELLS, GAMMAS, DATASET_NAMES
 from baseline_iadu import load_dataset, iadu
 from grid_iadu import old_grid_iadu, grid_iadu
 
-EXPERIMENT_NAME = "timesCLvsFL"
+EXPERIMENT_NAME = "timesCLvsFullGrid"
 SHAPES = DATASET_NAMES
 
 

@@ -10,7 +10,7 @@ from models import Place
 from config import COMBO, NUM_CELLS, GAMMAS, DATASET_NAMES
 from baseline_iadu import load_dataset, iadu, load_dataset
 from hybrid_sampling import hybrid, hybrid_on_grid
-from grid_iadu import base_iadu_on_grid, grid_iadu
+from grid_iadu import grid_iadu
 
 EXPERIMENT_NAME = "times"
 SHAPES = DATASET_NAMES

@@ -14,7 +14,7 @@ if _SRC_DIR not in sys.path:
     sys.path.insert(0, _SRC_DIR)
 
 # ---- project imports (now that src/ is on sys.path) ----
-from config import COMBO, NUM_CELLS, DBPEDIA_DATASET_NAMES
+from config import COMBO, NUM_CELLS, DATASET_NAMES
 from baseline_iadu import load_db_dataset
 from models import Place, Cell  # classes already in your repo
 
@@ -114,7 +114,7 @@ def save_grid_pdf(
 # ======================== Experiment runner ========================
 
 EXPERIMENT_NAME = "grid_viz"
-SHAPES = DBPEDIA_DATASET_NAMES
+SHAPES = DATASET_NAMES
 
 def run_grid_visualization(output_dir: str = "grid_pdfs") -> None:
     """
