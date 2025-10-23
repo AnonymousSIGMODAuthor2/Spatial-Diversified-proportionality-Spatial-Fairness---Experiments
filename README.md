@@ -16,7 +16,7 @@ The main algorithms from the paper are implemented in the `src/` directory. Belo
 
 * **Grid-based IAdU Algorithm**: The efficient grid-based version of the IAdU algorithm is implemented as `grid_based_iadu_algorithm` in `src/grid_iadu.py`. It uses a heap-per-cell strategy to prune the search space and accelerate the selection process.
 
-* **Pruning of S and Retrieval of R Algorithms**: The hybrid approaches that combine biased sampling with the IAdU and Grid-Based IAdU algorithms are implemented in `src/hybrid_sampling.py`. The functions `hybrid` and `hybrid_on_grid` orchestrate the sampling, execution of the appropriate IAdU variant on the sample, and the final scoring. The simple "Retrieval of R" algorithm (biased sampling) is located in `src/biased_sampling.py`.
+* **Pruning of `S` and Retrieval of `R` Algorithms**: The hybrid approaches that combine biased sampling with the IAdU and Grid-Based IAdU algorithms are implemented in `src/hybrid_sampling.py`. The functions `hybrid` and `hybrid_on_grid` orchestrate the sampling, execution of the appropriate IAdU variant on the sample, and the final scoring. The simple "Retrieval of R" algorithm (biased sampling) is located in `src/biased_sampling.py`.
 
 ---
 
