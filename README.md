@@ -1,6 +1,6 @@
 # Top-𝑘 Representative Spatial Objects using Spatial Diversified Proportionality
 
-This repository contains the code to reproduce the experiments for the paper **"Spatial Diversified proportionality (Spatial Fairness)"**.
+This repository contains the code to reproduce the experiments for the paper **"Top-k Representative Spatial Objects using Spatial Diversified Proportionality"**.
 
 The project implements and evaluates a novel retrieval paradigm that selects a subset of `k` places from an initial set `S` that are not only relevant but also **spatially proportional** and **diverse**. This approach is formalized under the concept of **spatial fairness**.
 
@@ -10,13 +10,13 @@ The project implements and evaluates a novel retrieval paradigm that selects a s
 
 The main algorithms from the paper are implemented in the `src/` directory. Below are pointers to the key functions:
 
-*   **Baseline IAdU Algorithm**: The exact, non-grid-based iterative algorithm is implemented as `baseline_iadu_algorithm` in `src/baseline_iadu.py`. This function performs the iterative selection on the full dataset `S`. The corresponding exact `pSS` pre-computation is handled by `base_precompute` in the same file.
+* **Baseline IAdU Algorithm**: The exact, non-grid-based iterative algorithm is implemented as `baseline_iadu_algorithm` in `src/baseline_iadu.py`. This function performs the iterative selection on the full dataset `S`. The corresponding exact **`S^S`** (spatial proportionality w.r.t. S) pre-computation is handled by `base_precompute` in the same file.
 
-*   **Virtual Grid pSS Approximation**: The approximation of `pSS` scores using a virtual grid is implemented in `virtual_grid_based_algorithm` within `src/grid_iadu.py`. This function calculates approximate spatial proportionality scores based on cell-level aggregations.
+* **Virtual Grid `S^S` Approximation**: The approximation of **`S^S`** scores using a virtual grid is implemented in `virtual_grid_based_algorithm` within `src/grid_iadu.py`. This function calculates approximate spatial proportionality scores based on cell-level aggregations.
 
-*   **Grid-based IAdU Algorithm**: The efficient grid-based version of the IAdU algorithm is implemented as `grid_based_iadu_algorithm` in `src/grid_iadu.py`. It uses a heap-per-cell strategy to prune the search space and accelerate the selection process.
+* **Grid-based IAdU Algorithm**: The efficient grid-based version of the IAdU algorithm is implemented as `grid_based_iadu_algorithm` in `src/grid_iadu.py`. It uses a heap-per-cell strategy to prune the search space and accelerate the selection process.
 
-*   **Pruning of S and Retrieval of R Algrithms**:  The hybrid approaches that combine biased sampling with the IAdU and Grid Based IAdU algorithms are implemented in `src/hybrid_sampling.py`. The functions `hybrid` and `hybrid_on_grid` orchestrate the sampling, execution of the appropriate IAdU variant on the sample, and the final scoring. Biased Sampling (Retrieval of R) algorithms are located in `src/biased_sampling.py`.
+* **Pruning of S and Retrieval of R Algorithms**: The hybrid approaches that combine biased sampling with the IAdU and Grid-Based IAdU algorithms are implemented in `src/hybrid_sampling.py`. The functions `hybrid` and `hybrid_on_grid` orchestrate the sampling, execution of the appropriate IAdU variant on the sample, and the final scoring. The simple "Retrieval of R" algorithm (biased sampling) is located in `src/biased_sampling.py`.
 
 ---
 
@@ -30,16 +30,14 @@ The main configuration for all experiments is located in the `src/config.py` fil
 
 Here's an overview of the key parameters, explained using the terminology from the paper:
 
-
-
-* **`NUM_CELLS`**: A list of integers representing the total number of cells (`|G|`) for the **Virtual Grid Based Algorithm**. This parameter controls the granularity of the grid used to approximate the spatial proportionality scores (`pSS(pi)`). A higher value results in a finer grid and can improve approximation quality at the cost of computation time.
+* **`NUM_CELLS`**: A list of integers representing the total number of cells (`|G|`) for the **Virtual Grid Based Algorithm**. This parameter controls the granularity of the grid used to approximate the spatial proportionality scores (**`S^S(pi)`**). A higher value results in a finer grid and can improve approximation quality at the cost of computation time.
 
 * **`COMBO`**: A list of tuples, where each tuple `(K, k)` defines an experimental run.
-    * `K`: The total number of relevant places in the initial set `S`.
-    * `k`: The number of places to be selected for the final result set `R`.
+    * `K`: The total number of relevant places in the initial set `S` (i.e., **$|S|$**).
+    * `k`: The number of places to be selected for the final result set `R` (i.e., **$|R|$**).
     * **Example**: `COMBO = [(1000, 20), (5000, 50)]` will run experiments for an initial set of 1000 places to select 20, and for an initial set of 5000 places to select 50.
 
-* **`GAMMAS`**: A list of float values for the weight parameter `w`. This weight is used in the spatial proportionality score, `pS(pi) = pSS(pi) - w * pSR(pi)`, to control the trade-off between favoring places in dense areas (`pSS(pi)`) and ensuring diversity among the selected places in `R` (`pSR(pi)`).
+* **`GAMMAS`**: A list of float values for the parameter **`g`**. This parameter is used by the experiment scripts (e.g., `src/exp/hardcore_exp.py`) to calculate the final weight parameter **`w`** (referred to as `W` in the code) using the formula: `w = K / (g * k)`. This weight `w` is used in the spatial diversified proportionality score, **`S(pi) = S^S(pi) - w * S^R(pi)`** (see Eq. 2 in the paper), to control the trade-off between favoring places in dense areas (`S^S(pi)`) and ensuring diversity among the selected places in `R` (`S^R(pi)`).
 
 ---
 
@@ -47,24 +45,23 @@ Here's an overview of the key parameters, explained using the terminology from t
 
 The experiments use queries derived from the datasets **DBpedia** and **YAGO2**, as described in the paper. The pre-processed queries are expected to be in the `datasets/` directory.
 
-## Generating Dataset Files (.pkl)
+#### Generating Dataset Files (.pkl)
 
 The `.pkl` dataset files, which represent the pre-processed queries, are generated by the `src/dbpedia_query_generator.py` and `src/yago2_query_generator.py` scripts. These scripts take raw data (e.g., `pid.txt` and popular region definitions) and produce nested subsets of places for various `K` values. The output `.pkl` files are typically saved into `dbpedia_output/` and `yago_square/` directories, respectively, which should then be moved or linked to the `datasets/` directory for the main experiment scripts to find them. For example, to generate the DBpedia query files, run `python src/dbpedia_query_generator.py`.
 
 Please ensure the `.pkl` and `.npy` dataset files are correctly named and placed in the `datasets/` directory so the `dataset_store.py` script can load them properly.
 
-**DBpedia** : https://www.dbpedia.org
-
-**YAGO2**   : https://yago-knowledge.org/downloads/yago-2
+* **DBpedia**: [https://www.dbpedia.org](https://www.dbpedia.org)
+* **YAGO2**: [https://www.mpi-inf.mpg.de/departments/databases-andinformation-systems/research/yago-naga/yago/](https://www.mpi-inf.mpg.de/departments/databases-andinformation-systems/research/yago-naga/yago/)
 
 ---
 
 ### 3. **Dependencies**
 
-This project requires Python 3. You can install the necessary libraries using pip. Based on the project's scope, you will likely need the following:
+This project requires Python 3. You can install the necessary libraries using pip. Based on the project's source files, you will need the following:
 
 ```bash
-pip install numpy pandas scikit-learn matplotlib
+pip install numpy pandas scikit-learn matplotlib openpyxl folium
 ```
 
 ### 4. **Running the Experiments**
