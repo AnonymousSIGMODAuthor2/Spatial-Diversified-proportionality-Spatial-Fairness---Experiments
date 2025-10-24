@@ -1,47 +1,38 @@
-# Top-𝑘 Representative Spatial Objects using Spatial Diversified Proportionality
+# Top-k Representative Spatial Objects using Spatial Diversified Proportionality
 
 This repository contains the code to reproduce the experiments for the paper **"Top-k Representative Spatial Objects using Spatial Diversified Proportionality"**.
 
-The project implements and evaluates a novel retrieval paradigm that selects a subset of `k` places from an initial set `S` that are not only relevant but also **spatially proportional** and **diverse**. This approach is formalized under the concept of **spatial fairness**.
+The project implements and evaluates a novel retrieval paradigm that selects a subset of $`k`$ places from an initial set $`S`$ that are not only relevant but also **spatially proportional** and **diverse**. This approach is formalized under the concept of **spatial fairness**.
 
 ---
 
-## Core Algorithms
+## Algorithms
 
-The main algorithms from the paper are implemented in the `src/` directory. Below are pointers to the key functions:
+The main algorithms from the paper are implemented in the `src/` directory:
 
-* **Baseline IAdU Algorithm**: The exact, non-grid-based iterative algorithm is implemented as `baseline_iadu_algorithm` in `src/baseline_iadu.py`. This function performs the iterative selection on the full dataset $`S`$. The corresponding exact $`S^S`$ (spatial proportionality) pre-computation is handled by `base_precompute` in the same file.
-
-* **Virtual Grid $`S^S`$ Approximation**: The approximation of $`S^S`$ scores using a virtual grid is implemented in `virtual_grid_based_algorithm` within `src/grid_iadu.py`. This function calculates approximate spatial proportionality scores based on cell-level aggregations.
-
-* **Grid-based IAdU Algorithm**: The efficient grid-based version of the IAdU algorithm is implemented as `grid_based_iadu_algorithm` in `src/grid_iadu.py`. It uses a heap-per-cell strategy to prune the search space and accelerate the selection process.
-
-* **Pruning of $`S`$ and Retrieval of $`R`$ Algorithms**: The hybrid approaches that combine biased sampling with the IAdU and Grid-Based IAdU algorithms are implemented in `src/hybrid_sampling.py`. The functions `hybrid` and `hybrid_on_grid` orchestrate the sampling, execution of the appropriate IAdU variant on the sample, and the final scoring. The simple "Retrieval of R" algorithm (biased sampling) is located in `src/biased_sampling.py`.
+* **Algorithm 1: Pruning of $`S`$ (or Retrieval of $`R`$) using Biased Sampling**: Implemented in `src/biased_sampling.py` and used by the hybrid methods in `src/hybrid_sampling.py`.
+* **Algorithm 2: Virtual Grid Based Algorithm**: Implemented as `virtual_grid_based_algorithm` in `src/grid_iadu.py` for approximating $S^S$ scores[cite: 1272, 1297].
+* **Algorithm 3: Baseline $IAdU$**: Implemented as `baseline_iadu_algorithm` in `src/baseline_iadu.py`. The exact $S^S$ pre-computation (`base_precompute`) is also in this file.
+* **Algorithm 4: Grid based $IAdU$**: Implemented as `grid_based_iadu_algorithm` in `src/grid_iadu.py`, utilizing a heap-per-cell optimization.
 
 ---
 
 ## Running the Experiments
 
-To run the experiments, please follow these steps:
+### 1. Dependencies
 
-### 1. **Configuration**
+Install the required Python 3 libraries:
 
-The main configuration for all experiments is located in the `src/config.py` file. Before running any scripts, you should set the desired parameters in this file.
+```bash
+pip install numpy pandas scikit-learn matplotlib openpyxl folium
+```
 
-Here's an overview of the key parameters, explained using the terminology from the paper:
+### 2. **Configuration**
 
-* **`NUM_CELLS`**: A list of integers representing the total number of cells ($`|G|`$) for the **Virtual Grid Based Algorithm**. This parameter controls the granularity of the grid used to approximate the spatial proportionality scores ($`S^S(pi)`$). A higher value results in a finer grid and can improve approximation quality at the cost of computation time.
+All experiment parameters are set in src/config.py. You can edit this file to define the combinations of $K$ (initial set size) and $k$ (result set size), as well as the grid granularities ($G$) to be tested.
 
-* **`COMBO`**: A list of tuples, where each tuple $`(K, k)`$ defines an experimental run.
-    * $`K`$: The total number of relevant places in the initial set $`S`$ (i.e., $|S|$).
-    * $`k`$: The number of places to be selected for the final result set $`R`$ (i.e., $|R|$).
-    * **Example**: $`COMBO = [(1000, 20), (5000, 50)]`$ will run experiments for an initial set of 1000 places to select 20, and for an initial set of 5000 places to select 50.
 
-* **`GAMMAS`**: A list of float values for the parameter **$`g`$**. This parameter is used by the experiment scripts (e.g., `src/exp/hardcore_exp.py`) to calculate the final weight parameter $`w`$ (referred to as $`W`$ in the code) using the formula: $`w = K / (g * k)`$. This weight $`w`$ is used in the spatial diversified proportionality score, $`S(pi) = S^S(pi) - w * S^R(pi)`$ (see Eq. 2 in the paper), to control the trade-off between favoring places in dense areas ($`S^S(pi)`$) and ensuring diversity among the selected places in $`R`$ ($`S^R(pi)`$).
-
----
-
-### 2. **Datasets**
+### 3. **Datasets**
 
 The experiments use queries derived from the datasets **DBpedia** and **YAGO2**, as described in the paper. The pre-processed queries are expected to be in the `datasets/` directory.
 
@@ -55,14 +46,6 @@ Please ensure the `.pkl` and `.npy` dataset files are correctly named and placed
 * **YAGO2**: [https://www.mpi-inf.mpg.de/departments/databases-andinformation-systems/research/yago-naga/yago/](https://www.mpi-inf.mpg.de/departments/databases-andinformation-systems/research/yago-naga/yago/)
 
 ---
-
-### 3. **Dependencies**
-
-This project requires Python 3. You can install the necessary libraries using pip. Based on the project's source files, you will need the following:
-
-```bash
-pip install numpy pandas scikit-learn matplotlib openpyxl folium
-```
 
 ### 4. **Running the Experiments**
 
