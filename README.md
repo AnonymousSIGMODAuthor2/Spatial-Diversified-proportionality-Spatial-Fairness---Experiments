@@ -1,9 +1,5 @@
 # Top-k Representative Spatial Objects using Spatial Diversified Proportionality
 
-This repository contains the code to reproduce the experiments for the paper **"Top-k Representative Spatial Objects using Spatial Diversified Proportionality"**.
-
-The project implements and evaluates a novel retrieval paradigm that selects a subset of $k$ places from an initial set $S$ that are not only relevant but also **spatially proportional** and **diverse**. This approach is formalized under the concept of **spatial fairness**.
-
 ---
 
 ## Algorithms
