@@ -2,7 +2,7 @@
 
 This repository contains the code to reproduce the experiments for the paper **"Top-k Representative Spatial Objects using Spatial Diversified Proportionality"**.
 
-The project implements and evaluates a novel retrieval paradigm that selects a subset of $`k`$ places from an initial set $`S`$ that are not only relevant but also **spatially proportional** and **diverse**. This approach is formalized under the concept of **spatial fairness**.
+The project implements and evaluates a novel retrieval paradigm that selects a subset of $k$ places from an initial set $S$ that are not only relevant but also **spatially proportional** and **diverse**. This approach is formalized under the concept of **spatial fairness**.
 
 ---
 
@@ -10,8 +10,8 @@ The project implements and evaluates a novel retrieval paradigm that selects a s
 
 The main algorithms from the paper are implemented in the `src/` directory:
 
-* **Algorithm 1: Pruning of $`S`$ (or Retrieval of $`R`$) using Biased Sampling**: Implemented in `src/biased_sampling.py` and used by the hybrid methods in `src/hybrid_sampling.py`.
-* **Algorithm 2: Virtual Grid Based Algorithm**: Implemented as `virtual_grid_based_algorithm` in `src/grid_iadu.py` for approximating $S^S$ scores[cite: 1272, 1297].
+* **Algorithm 1: Pruning of $S$ (or Retrieval of $R$) using Biased Sampling**: Implemented in `src/biased_sampling.py` and used by the hybrid methods in `src/hybrid_sampling.py`.
+* **Algorithm 2: Virtual Grid Based Algorithm**: Implemented as `virtual_grid_based_algorithm` in `src/grid_iadu.py` for approximating $S^S$ scores.
 * **Algorithm 3: Baseline $IAdU$**: Implemented as `baseline_iadu_algorithm` in `src/baseline_iadu.py`. The exact $S^S$ pre-computation (`base_precompute`) is also in this file.
 * **Algorithm 4: Grid based $IAdU$**: Implemented as `grid_based_iadu_algorithm` in `src/grid_iadu.py`, utilizing a heap-per-cell optimization.
 
