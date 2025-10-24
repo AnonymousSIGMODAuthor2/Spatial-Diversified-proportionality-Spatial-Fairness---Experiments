@@ -29,7 +29,7 @@ pip install numpy pandas scikit-learn matplotlib openpyxl folium
 
 ### 2. **Configuration**
 
-All experiment parameters are set in src/config.py. You can edit this file to define the combinations of $K$ (initial set size) and $k$ (result set size), as well as the grid granularities ($G$) to be tested.
+All experiment parameters are set in src/config.py. You can edit this file to define the combinations of $K$ (initial set size) and $k$ (result set size), as well as the grid granularities ( $G$ ) to be tested.
 
 
 ### 3. **Datasets**
